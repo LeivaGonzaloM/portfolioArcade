@@ -151,7 +151,7 @@ let isJoystickDown = false;
 let joystickCenter = { x: 0, y: 0 };
 
 function updateCursor(dx, dy) {
-    const sensitivity = 2;
+    const sensitivity = 5; // Increased from 2 for better response
     state.cursorPos.x = Math.max(0, Math.min(100, state.cursorPos.x + dx * sensitivity));
     state.cursorPos.y = Math.max(0, Math.min(100, state.cursorPos.y + dy * sensitivity));
     cursor.style.left = `${state.cursorPos.x}%`;

@@ -30,7 +30,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #app {
@@ -237,6 +238,7 @@ body {
     /* Contain the cursor */
 }
 
+/* Cursor persists across all devices for consistent selection logic */
 .pip-cursor {
     position: absolute;
     width: 24px;
@@ -290,6 +292,7 @@ body {
     padding: 20px 0;
     overflow-y: auto;
     position: relative;
+    scroll-behavior: smooth;
 }
 
 .tab-section {
@@ -558,7 +561,10 @@ body {
     height: 100%;
     border: none;
     filter: sepia(1) hue-rotate(90deg) brightness(0.8) contrast(1.2);
-    /* Make map look retro */
+}
+
+.pip-map-wrapper iframe {
+    height: 100% !important;
 }
 
 .pip-map-scanlines {
@@ -752,15 +758,26 @@ body {
 
 /* Map/Contact Styles */
 
+.custom-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
 .custom-btns a {
-    width: 10%;
+    flex: 1 1 auto;
+    min-width: 100px;
+    max-width: 150px;
     padding: 10px;
     background: none;
     border: 1px solid var(--primary);
     color: var(--primary);
     font-family: var(--font-main);
+    text-align: center;
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 0.9rem;
 }
 
 .custom-btns a:hover {
@@ -811,44 +828,104 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .arcade-cabinet {
-        border-width: 5px;
+        border-width: 6px;
+        transform: none;
+        margin-bottom: 20px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .side-panel {
+        display: none;
     }
 
     .marquee {
-        font-size: 1.5rem;
-        letter-spacing: 2px;
+        font-size: 1.8rem;
+        letter-spacing: 4px;
     }
 
     .screen-container {
-        padding: 10px;
+        padding: 15px;
     }
 
     .crt-monitor {
-        height: 400px;
+        height: 500px;
         border-width: 10px;
     }
 
     .content-wrapper {
-        padding: 15px;
+        padding: 20px;
     }
 
-    .pip-content h2 {
-        font-size: 1.5rem;
+    .pip-header {
+        font-size: 1rem;
     }
 
-    .skill-list {
-        columns: 1;
+    .pip-tabs {
+        padding: 15px 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* Increased for better touch separation */
+    }
+
+    .tab-btn {
+        font-size: 1.1rem; /* Slightly larger for legibility */
+        padding: 10px 15px;
+        min-width: 80px;
+        text-align: center;
+        border: 1px solid var(--primary-dim); /* Add subtle border for tap target clarity */
+        background: rgba(0, 0, 0, 0.2);
     }
 
     .control-panel {
-        padding: 15px;
+        padding: 20px;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
+    }
+
+    .joystick-area {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .buttons-container {
+        width: 100%;
+        justify-content: space-around;
+        gap: 15px;
+    }
+
+    .arcade-btn {
+        width: 60px;
+        height: 60px;
     }
 
     .joystick {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    #app {
+        padding: 10px;
+    }
+
+    .marquee {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+    }
+
+    .crt-monitor {
+        height: 450px;
+    }
+
+    .pip-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .custom-btns a {
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 8px 5px;
     }
 
     .arcade-btn {
@@ -856,8 +933,22 @@ body {
         height: 50px;
     }
 
-    .joystick-area {
-        gap: 15px;
+    .joystick {
+        width: 70px;
+        height: 70px;
+    }
+
+    .joystick .stick {
+        width: 35px;
+        height: 35px;
+    }
+
+    .pip-tabs {
+        gap: 2px;
+    }
+
+    .tab-btn {
+        font-size: 0.8rem;
     }
 }
 
