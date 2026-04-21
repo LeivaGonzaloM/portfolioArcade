@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gonzalo Manuel Leiva | Arcade Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <div class="arcade-cabinet">
+            <div class="side-panel left"></div>
+            <div class="side-panel right"></div>
+
+            <div class="cabinet-top">
+                <div class="bolt top-left"></div>
+                <div class="bolt top-right"></div>
+                <div class="marquee">GONZALO - LeivaSoftlutions</div>
+            </div>
+
+            <div class="screen-container">
+                <div class="crt-monitor">
+                    <div class="scanlines"></div>
+                    <div class="flicker"></div>
+                    <div class="vignette"></div>
+
+                    <div class="content-wrapper">
+                        <div id="pip-cursor" class="pip-cursor"></div>
+                        <header class="pip-header">
+                            <div class="header-left">
+                                <span id="current-tab-name" data-i18n="tabs.stat">STAT</span>
+                            </div>
+                            <div class="header-right">
+                                <span id="system-time">00:00:00</span>
+                            </div>
+                        </header>
+
+                        <main id="main-content" class="pip-content">
+                            <!-- STAT Section -->
+                            <section id="tab-stat" class="tab-section active">
+                                <h2 data-i18n="content.stat.title">GONZALO MANUEL LEIVA</h2>
+                                <p class="level" data-i18n="content.stat.level">Nivel: Fullstack Developer</p>
+
+                                <div class="stat-screen">
+                                    <div class="stat-main">
+                                        <p style="font-size: 20px;">UI/UX Design - Systems Design - Web Developer
+                                        </p>
+                                        <br>
+                                        <div class="custom-btns">
+                                            <a href="https://github.com/LeivaGonzaloM" target="_blank"
+                                                style="text-decoration: none;" data-i18n="content.map.github">GitHub</a>
+
+                                            <a href="https://www.instagram.com/leivasoftlutions/" target="_blank"
+                                                style="text-decoration: none;"
+                                                data-i18n="content.map.instagram">Instagram</a>
+
+                                            <a href="mailto:[leivadevelopment@gmail.com]" target="_blank"
+                                                style="text-decoration: none;" data-i18n="content.map.email">Email</a>
+
+                                            <a href="https://wa.me/3625143613" target="_blank"
+                                                style="text-decoration: none;"
+                                                data-i18n="content.map.whatsapp">WhatsApp</a>
+
+                                            <a href="#" target="_blank" style="text-decoration: none;"
+                                                data-i18n="content.map.cv">CV</a>
+                                        </div>
+                                        <br>
+                                        <p data-i18n="content.stat.bio">Desarrolador web + años de experiencia en
+                                            informatica.
+                                            Soluciones de software a medida, sistemas de gestión, automatización de
+                                            tareas, etc.</p>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="skills-container">
+                                        <!-- Skill bars will be handled by JS but the structure is here -->
+                                        <div class="skill-item">
+                                            <span class="skill-name">UI / UX Design</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 95%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span class="skill-name">HTML / CSS</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 95%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span class="skill-name">React / Next.js</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 85%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span class="skill-name">Node.js / JavaScript</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span class="skill-name">Python / Django</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span class="skill-name">PostgreSQL / MongoDB</span>
+                                            <div class="skill-bar-bg">
+                                                <div class="skill-bar-fill" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- INV Section -->
+                            <section id="tab-inv" class="tab-section">
+                                <h2 data-i18n="content.inv.title">INVENTARIO DE PROYECTOS</h2>
+                                <ul class="project-list">
+                                    <li>
+                                        <strong data-i18n="content.inv.item1.name">POS Restaurant
+                                            System(RestaurantDev)</strong>
+                                        <p data-i18n="content.inv.item1.desc">Sistema de gestión para restaurantes con
+                                            control de stock y comandas.</p>
+                                    </li>
+                                    <li>
+                                        <strong data-i18n="content.inv.item2.name">LashesApp</strong>
+                                        <p data-i18n="content.inv.item2.desc">Plataforma de gestion de citas, ventas con
+                                            integración de
+                                            pagos y panel admin.</p>
+                                    </li>
+                                    <li>
+                                        <strong data-i18n="content.inv.item3.name">LeivaSoftlutions</strong>
+                                        <p data-i18n="content.inv.item3.desc">E-commerce: tienda de software a medida;
+                                            sistemas de gestión, automatización de tareas, etc.</p>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <!-- DATA Section -->
+                            <section id="tab-data" class="tab-section">
+                                <h2 data-i18n="content.data.title">ARCHIVOS DE DATOS</h2>
+                                <div class="data-list">
+                                    <div class="exp-item">
+                                        <span class="date">2022 - Presente</span>
+                                        <strong data-i18n="content.data.exp1.role"> Fullstack
+                                            Dev@LeivaSoftlutions</strong>
+                                        <p data-i18n="content.data.exp1.detail">Soy Fundador y Desarrollador en
+                                            LeivaSoftlutions, una empresa dedicada a la creación de soluciones
+                                            tecnológicas personalizadas. Desde e-commerce hasta sistemas de
+                                            automatización y software a medida, trabajo para transformar las
+                                            necesidades de los clientes en herramientas digitales eficientes y
+                                            profesionales.</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- MAP Section -->
+                            <section id="tab-map" class="tab-section">
+                                <h2 data-i18n="content.map.title">MAPA / CONTACTO</h2>
+
+                                <br>
+                                <div class="map-info">
+                                    <p data-i18n="content.map.number">WhatsApp: +54 3625143613</p>
+                                    <p data-i18n="content.map.contact">Correo: leivadevelopment@gmail.com</p>
+                                    <p data-i18n="content.map.location">Ubicación: Resistencia, Chaco, Argentina</p>
+                                    <p data-i18n="content.map.adress">Dirección: Pje Yolanda P De Elizondo 1284</p>
+                                </div>
+                                <br>
+                                <div class="pip-map-wrapper">
+                                    <div class="pip-map-scanlines" aria-hidden="true"></div>
+                                    <div class="pip-map-overlay" aria-hidden="true">
+                                        <span class="pip-map-label" style="color:black;">◈ UBICACIÓN
+                                            DETECTADA ◈</span>
+                                        <span class="pip-map-coords" style="color:black;">-26.9197° / -53.6326°</span>
+                                    </div>
+
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d276.8478693203464!2d-58.98599097919941!3d-27.470340773797023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2sus!4v1776723071532!5m2!1ses!2sus"
+                                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+
+                                <div class="contact-form-container">
+                                    <h3 data-i18n="content.map.form.send">ENVIAR CONSULTA</h3>
+                                    <br>
+                                    <form action="https://formspree.io/f/leivadevelopment@gmail.com" method="POST"
+                                        class="pip-form">
+                                        <div class="form-group">
+                                            <label data-i18n="content.map.form.name">NOMBRE</label>
+                                            <input type="text" name="name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n="content.map.form.email">EMAIL</label>
+                                            <input type="email" name="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n="content.map.form.msg">MENSAJE</label>
+                                            <textarea name="message" rows="4" required></textarea>
+                                        </div>
+                                        <button type="submit" class="pip-submit-btn"
+                                            data-i18n="content.map.form.send">ENVIAR CONSULTA</button>
+                                    </form>
+                                </div>
+
+                            </section>
+
+                            <!-- HUB Section -->
+                            <section id="tab-hub" class="tab-section">
+                                <h2 data-i18n="content.hub.title">HUB DE SISTEMA</h2>
+                                <div class="hub-container">
+                                    <h3 data-i18n="content.hub.theme">PERSONALIZACIÓN DE INTERFAZ</h3>
+                                    <div class="color-palette">
+                                        <div class="color-swatch" style="background: #10ff10" data-color="#10ff10">
+                                        </div>
+                                        <div class="color-swatch" style="background: #ffb86c" data-color="#ffb86c">
+                                        </div>
+                                        <div class="color-swatch" style="background: #8be9fd" data-color="#8be9fd">
+                                        </div>
+                                        <div class="color-swatch" style="background: #bd93f9" data-color="#bd93f9">
+                                        </div>
+                                        <div class="color-swatch" style="background: #ff5555" data-color="#ff5555">
+                                        </div>
+                                        <div class="color-swatch" style="background: #f8f8f2" data-color="#f8f8f2">
+                                        </div>
+                                    </div>
+                                    <div class="custom-color-btn">
+                                        <button id="custom-color-trigger" data-i18n="content.hub.custom">COLOR
+                                            PERSONALIZADO</button>
+                                    </div>
+
+                                    <div class="effects-section">
+                                        <h3 data-i18n="content.hub.effects">EFECTOS ADICIONALES</h3>
+                                        <div class="effect-toggle">
+                                            <span data-i18n="content.hub.shadow">SOMBRAS</span>
+                                            <label class="switch">
+                                                <input type="checkbox" id="shadow-toggle">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="effect-toggle">
+                                            <span data-i18n="content.hub.zoom">PANTALLA COMPLETA</span>
+                                            <label class="switch">
+                                                <input type="checkbox" id="zoom-toggle">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </main>
+
+                        <footer class="pip-footer">
+                            <nav class="pip-tabs">
+                                <button class="tab-btn active" data-tab="stat" data-i18n="tabs.stat">STAT</button>
+                                <button class="tab-btn" data-tab="inv" data-i18n="tabs.inv">INV</button>
+                                <button class="tab-btn" data-tab="data" data-i18n="tabs.data">DATA</button>
+                                <button class="tab-btn" data-tab="map" data-i18n="tabs.map">MAP</button>
+                                <button class="tab-btn" data-tab="hub" data-i18n="tabs.hub">HUB</button>
+                            </nav>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="joystick-area">
+                    <div class="joystick-container">
+                        <div class="joystick" id="color-joystick">
+                            <div class="stick"></div>
+                            <div class="base"></div>
+                        </div>
+                        <span class="label">Cursor</span>
+                    </div>
+                    <div class="select-container">
+                        <button class="arcade-btn small" id="select-btn">
+                            <span class="btn-cap">SEL</span>
+                        </button>
+                        <span class="label">SELECT</span>
+                    </div>
+                </div>
+
+                <div class="buttons-container">
+                    <div class="arcade-button-group">
+                        <button class="arcade-btn" id="lang-btn">
+                            <span class="btn-cap">LANG</span>
+                        </button>
+                        <span class="label">ES / EN / PT</span>
+                    </div>
+                    <div class="arcade-button-group">
+                        <button class="arcade-btn" id="mute-btn">
+                            <span class="btn-cap">MUTE</span>
+                        </button>
+                        <span class="label">SOUND</span>
+                    </div>
+                    <div class="arcade-button-group">
+                        <button class="arcade-btn" id="power-btn">
+                            <span class="btn-cap">POWER</span>
+                        </button>
+                        <span class="label">PWR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>

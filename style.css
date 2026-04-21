@@ -1,0 +1,982 @@
+:root {
+    --pip-green: #10ff10;
+    --pip-green-dim: #004400;
+    --pip-green-bg: rgba(0, 20, 0, 0.9);
+    --pip-glow: 0 0 10px var(--pip-green);
+
+    --cabinet-color: #2c2c2c;
+    --cabinet-accent: #1a1a1a;
+
+    --font-main: 'Share Tech Mono', monospace;
+    --font-display: 'VT323', monospace;
+
+    /* Current Theme Color (Modified by JS) */
+    --primary: var(--pip-green);
+    --primary-dim: var(--pip-green-dim);
+    --primary-bg: var(--pip-green-bg);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212;
+    color: var(--primary);
+    font-family: var(--font-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+}
+
+/* Arcade Cabinet Styling */
+.arcade-cabinet {
+    background-color: var(--cabinet-color);
+    border: 10px solid #111;
+    border-radius: 20px 20px 0 0;
+    box-shadow:
+        inset 0 0 50px rgba(0, 0, 0, 0.8),
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        -10px 0 20px rgba(0, 0, 0, 0.3),
+        10px 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transform: perspective(1000px) rotateX(2deg);
+    margin-bottom: 50px;
+}
+
+.side-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to bottom, #1a1a1a, #000);
+    z-index: -1;
+}
+
+.side-panel.left {
+    left: -40px;
+    transform: skewY(10deg);
+}
+
+.side-panel.right {
+    right: -40px;
+    transform: skewY(-10deg);
+}
+
+.bolt {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle at 30% 30%, #777, #333);
+    border-radius: 50%;
+    border: 1px solid #111;
+}
+
+.bolt.top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.bolt.top-right {
+    top: 10px;
+    right: 10px;
+}
+
+.cabinet-top {
+    background: linear-gradient(to bottom, #555, #222);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 8px solid #111;
+    position: relative;
+}
+
+.marquee {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: #fff;
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px var(--primary),
+        2px 2px 0 #000;
+    letter-spacing: 8px;
+    animation: marquee-glow 2s infinite alternate;
+}
+
+@keyframes marquee-glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 2px 2px 0 #000;
+    }
+
+    to {
+        text-shadow: 0 0 20px var(--primary), 2px 2px 0 #000;
+    }
+}
+
+/* CRT Screen Container */
+.screen-container {
+    padding: 40px;
+    background: radial-gradient(circle at center, #222, #111);
+    border-bottom: 10px solid #000;
+    position: relative;
+}
+
+.screen-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.arcade-cabinet.zoom-effect {
+    transform: perspective(1000px) rotateX(2deg) scale(1.05);
+    max-width: 1200px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), max-width 0.5s ease;
+}
+
+.crt-monitor.shadow-effect {
+    box-shadow:
+        inset 0 0 100px rgba(0, 0, 0, 1),
+        0 0 30px var(--primary),
+        0 0 60px var(--primary-dim);
+    transition: box-shadow 0.3s ease;
+}
+
+.crt-monitor {
+    position: relative;
+    width: 100%;
+    height: 550px;
+    background-color: #000;
+    border-radius: 15px;
+    border: 20px solid #111;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 100px rgba(0, 0, 0, 1),
+        0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* CRT Effects */
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.flicker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 16, 16, 0.1);
+    opacity: 0;
+    z-index: 11;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.05;
+    }
+
+    100% {
+        opacity: 0.15;
+    }
+}
+
+.vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.8);
+    z-index: 12;
+    pointer-events: none;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    text-shadow: 0 0 8px var(--primary);
+    overflow: hidden;
+    /* Contain the cursor */
+}
+
+.pip-cursor {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: screen;
+    box-shadow: 0 0 10px var(--primary);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    transition: left 0.1s linear, top 0.1s linear;
+}
+
+.pip-cursor::before,
+.pip-cursor::after {
+    content: '';
+    position: absolute;
+    background: var(--primary);
+}
+
+.pip-cursor::before {
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.pip-cursor::after {
+    width: 2px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.pip-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.pip-content {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+    position: relative;
+}
+
+.tab-section {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar for Pip-Boy */
+.pip-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pip-content::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    box-shadow: 0 0 5px var(--primary);
+}
+
+.pip-footer {
+    border-top: 2px solid var(--primary);
+    padding-top: 10px;
+}
+
+.pip-tabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: all 0.2s;
+    opacity: 0.6;
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+    opacity: 1;
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+/* Control Panel Styling */
+.joystick-area {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arcade-btn.small {
+    width: 45px;
+    height: 45px;
+    box-shadow:
+        0 5px 0 #222,
+        0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.arcade-btn.small:active {
+    box-shadow: 0 2px 0 #222;
+    transform: translateY(3px);
+}
+
+.arcade-btn.small .btn-cap {
+    font-size: 0.6rem;
+}
+
+.label {
+    display: block;
+    text-align: center;
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+/* Joystick */
+.joystick-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.joystick {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at center, #222, #000);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    box-shadow:
+        inset 0 10px 20px rgba(0, 0, 0, 0.8),
+        0 5px 15px rgba(0, 0, 0, 0.5);
+    border: 4px solid #111;
+    touch-action: none;
+    /* Important for pointer events */
+}
+
+.joystick:active {
+    cursor: grabbing;
+}
+
+.joystick .stick {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 30% 30%, #ff3333, #880000);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.6),
+        inset 0 -5px 10px rgba(0, 0, 0, 0.4);
+    transition: none;
+    /* Handled by JS */
+}
+
+/* Arcade Buttons */
+.buttons-container {
+    display: flex;
+    gap: 30px;
+}
+
+.arcade-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arcade-btn {
+    width: 70px;
+    height: 70px;
+    background: #444;
+    border-radius: 50%;
+    border: 5px solid #111;
+    position: relative;
+    cursor: pointer;
+    box-shadow:
+        0 8px 0 #222,
+        0 15px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+}
+
+.arcade-btn:active {
+    box-shadow: 0 3px 0 #222;
+    transform: translateY(5px);
+}
+
+.arcade-btn::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.arcade-btn#lang-btn {
+    background: #e67e22;
+}
+
+.arcade-btn#color-btn {
+    background: #3498db;
+}
+
+.arcade-btn#power-btn {
+    background: #e74c3c;
+}
+
+.btn-cap {
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+/* Content Specific Styles */
+.pip-content h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--primary-dim);
+    display: inline-block;
+}
+
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.skill-name {
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.skill-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: var(--primary-dim);
+    border: 1px solid var(--primary);
+    position: relative;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    transition: width 1s ease-in-out;
+}
+
+/* Map Wrapper Styles */
+.pip-map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #000;
+    border: 2px solid var(--primary);
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px var(--primary-dim);
+}
+
+.pip-map-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: sepia(1) hue-rotate(90deg) brightness(0.8) contrast(1.2);
+    /* Make map look retro */
+}
+
+.pip-map-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.pip-map-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    z-index: 3;
+    border: 1px solid var(--primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.pip-map-label {
+    font-weight: bold;
+}
+
+.pip-map-coords {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.map-info {
+    font-size: 1.1rem;
+}
+
+.project-list,
+.data-list {
+    list-style: none;
+}
+
+.project-list>li:hover {
+    box-shadow: 0 0 10px var(--primary);
+    transform: scale(0.90);
+    transition: all 0.2s;
+}
+
+.project-list li,
+.exp-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid var(--primary-dim);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.project-list li strong,
+.exp-item strong {
+    font-size: 1.2rem;
+    display: block;
+}
+
+.exp-item .date {
+    font-size: 0.8rem;
+    color: var(--primary);
+    opacity: 0.7;
+}
+
+.map-placeholder {
+    margin-top: 20px;
+    height: 150px;
+    border: 2px dashed var(--primary-dim);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+/* Control Panel Styling */
+.control-panel {
+    background: linear-gradient(to top, #333, #222);
+    padding: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 5px solid #111;
+}
+
+.joystick-area {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arcade-btn.small {
+    width: 45px;
+    height: 45px;
+    box-shadow:
+        0 5px 0 #222,
+        0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.arcade-btn.small:active {
+    box-shadow: 0 2px 0 #222;
+    transform: translateY(3px);
+}
+
+.arcade-btn.small .btn-cap {
+    font-size: 0.6rem;
+}
+
+/* HUB Styles */
+.hub-container {
+    padding: 20px;
+    border: 1px solid var(--primary-dim);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.hub-container h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.color-swatch {
+    height: 40px;
+    border: 2px solid #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #fff;
+}
+
+.custom-color-btn {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.custom-color-btn button {
+    width: auto;
+    padding: 10px 20px;
+    background: none;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.custom-color-btn button:hover {
+    background: var(--primary);
+    color: #000;
+}
+
+/* Map/Contact Styles */
+
+.custom-btns a {
+    width: 10%;
+    padding: 10px;
+    background: none;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.custom-btns a:hover {
+    background: var(--primary);
+    color: #000;
+}
+
+/* Pip-Boy Authenticity Refinements */
+.pip-header {
+    border-bottom: 3px solid var(--primary);
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.pip-header::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    opacity: 0.3;
+}
+
+.pip-tabs {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tab-btn {
+    position: relative;
+}
+
+.tab-btn.active::before {
+    content: '[';
+    position: absolute;
+    left: -10px;
+}
+
+.tab-btn.active::after {
+    content: ']';
+    position: absolute;
+    right: -10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .arcade-cabinet {
+        border-width: 5px;
+    }
+
+    .marquee {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    .screen-container {
+        padding: 10px;
+    }
+
+    .crt-monitor {
+        height: 400px;
+        border-width: 10px;
+    }
+
+    .content-wrapper {
+        padding: 15px;
+    }
+
+    .pip-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .skill-list {
+        columns: 1;
+    }
+
+    .control-panel {
+        padding: 15px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .joystick {
+        width: 60px;
+        height: 60px;
+    }
+
+    .arcade-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .joystick-area {
+        gap: 15px;
+    }
+}
+
+/* Contact Form Styling */
+.contact-form-container {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid var(--primary-dim);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.pip-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.form-group input,
+.form-group textarea {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--primary-dim);
+    padding: 10px;
+    color: var(--primary);
+    font-family: var(--font-main);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 5px var(--primary-dim);
+}
+
+.pip-submit-btn {
+    background: none;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 12px;
+    font-family: var(--font-main);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.pip-submit-btn:hover {
+    background: var(--primary);
+    color: #000;
+}
+
+/* Hub Effects Styling */
+.effects-section {
+    margin-top: 30px;
+    border-top: 1px solid var(--primary-dim);
+    padding-top: 20px;
+}
+
+.effect-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Switch UI */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--primary-dim);
+    transition: .4s;
+    border: 1px solid var(--primary);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 3px;
+    background-color: var(--primary);
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: var(--primary);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+    background-color: #000;
+}
