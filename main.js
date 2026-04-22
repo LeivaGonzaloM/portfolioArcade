@@ -5,7 +5,7 @@ const state = {
     isPowerOn: true,
     isMuted: false,
     cursorPos: { x: 50, y: 50 }, // Percentage
-    sensitivity: 5,
+    sensitivity: 0.6, // Default sensitivity
 };
 
 const translations = {
@@ -169,7 +169,8 @@ let isJoystickDown = false;
 let joystickCenter = { x: 0, y: 0 };
 
 function updateCursor(dx, dy) {
-    const sensitivity = state.sensitivity; // Using state sensitivity
+    const baseSensitivity = 1.5;
+    const sensitivity = state.sensitivity * baseSensitivity;
     state.cursorPos.x = Math.max(0, Math.min(100, state.cursorPos.x + dx * sensitivity));
     state.cursorPos.y = Math.max(0, Math.min(100, state.cursorPos.y + dy * sensitivity));
     cursor.style.left = `${state.cursorPos.x}%`;
@@ -289,7 +290,7 @@ powerBtn.addEventListener('click', () => {
 });
 
 sensitivitySlider.addEventListener('input', (e) => {
-    state.sensitivity = parseInt(e.target.value);
+    state.sensitivity = parseInt(e.target.value) / 50; // Range 0.02 to 2.0
 });
 
 // Mobile Sound Unlock
@@ -297,9 +298,21 @@ const unlockAudio = () => {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    
+    // Play a silent buffer to unlock audio on iOS/Mobile
+    const buffer = audioCtx.createBuffer(1, 1, 22050);
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioCtx.destination);
+    source.start(0);
+
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
+    
+    // Also trigger a small sound to confirm unlock
+    playSound('click');
+
     window.removeEventListener('click', unlockAudio);
     window.removeEventListener('touchstart', unlockAudio);
 };
