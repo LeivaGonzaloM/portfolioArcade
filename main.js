@@ -5,6 +5,7 @@ const state = {
     isPowerOn: true,
     isMuted: false,
     cursorPos: { x: 50, y: 50 }, // Percentage
+    sensitivity: 5,
 };
 
 const translations = {
@@ -29,7 +30,8 @@ const translations = {
         "content.hub.custom": "COLOR PERSONALIZADO",
         "content.hub.effects": "EFECTOS ADICIONALES",
         "content.hub.shadow": "SOMBRAS",
-        "content.hub.zoom": "EXPANDIR PANTALLA"
+        "content.hub.zoom": "EXPANDIR PANTALLA",
+        "content.hub.sensitivity": "SENSIBILIDAD CURSOR"
     },
     en: {
         "tabs.stat": "STAT", "tabs.inv": "INV", "tabs.data": "DATA", "tabs.map": "MAP", "tabs.hub": "HUB",
@@ -52,7 +54,8 @@ const translations = {
         "content.hub.custom": "CUSTOM COLOR",
         "content.hub.effects": "ADDITIONAL EFFECTS",
         "content.hub.shadow": "SHADOWS",
-        "content.hub.zoom": "EXPAND SCREEN"
+        "content.hub.zoom": "EXPAND SCREEN",
+        "content.hub.sensitivity": "CURSOR SENSITIVITY"
     },
     pt: {
         "tabs.stat": "STAT", "tabs.inv": "INV", "tabs.data": "DADOS", "tabs.map": "MAPA", "tabs.hub": "HUB",
@@ -75,7 +78,8 @@ const translations = {
         "content.hub.custom": "COR PERSONALIZADA",
         "content.hub.effects": "EFEITOS ADICIONALES",
         "content.hub.shadow": "SOMBRAS",
-        "content.hub.zoom": "TELA CHEIA"
+        "content.hub.zoom": "TELA CHEIA",
+        "content.hub.sensitivity": "SENSIBILIDADE DO CURSOR"
     }
 };
 
@@ -136,6 +140,7 @@ const colorSwatches = document.querySelectorAll('.color-swatch');
 const customColorTrigger = document.getElementById('custom-color-trigger');
 const shadowToggle = document.getElementById('shadow-toggle');
 const zoomToggle = document.getElementById('zoom-toggle');
+const sensitivitySlider = document.getElementById('sensitivity-slider');
 const arcadeCabinet = document.querySelector('.arcade-cabinet');
 
 // Update Clock
@@ -164,7 +169,7 @@ let isJoystickDown = false;
 let joystickCenter = { x: 0, y: 0 };
 
 function updateCursor(dx, dy) {
-    const sensitivity = 5; // Increased from 2 for better response
+    const sensitivity = state.sensitivity; // Using state sensitivity
     state.cursorPos.x = Math.max(0, Math.min(100, state.cursorPos.x + dx * sensitivity));
     state.cursorPos.y = Math.max(0, Math.min(100, state.cursorPos.y + dy * sensitivity));
     cursor.style.left = `${state.cursorPos.x}%`;
@@ -282,6 +287,25 @@ powerBtn.addEventListener('click', () => {
     playSound('power');
     crtMonitor.style.opacity = state.isPowerOn ? '1' : '0';
 });
+
+sensitivitySlider.addEventListener('input', (e) => {
+    state.sensitivity = parseInt(e.target.value);
+});
+
+// Mobile Sound Unlock
+const unlockAudio = () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    window.removeEventListener('click', unlockAudio);
+    window.removeEventListener('touchstart', unlockAudio);
+};
+
+window.addEventListener('click', unlockAudio);
+window.addEventListener('touchstart', unlockAudio);
 
 tabButtons.forEach(btn => btn.addEventListener('click', () => {
     playSound('tab');
