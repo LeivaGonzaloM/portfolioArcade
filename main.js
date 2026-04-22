@@ -87,12 +87,12 @@ const translations = {
 let audioCtx;
 const playSound = (type) => {
     if (state.isMuted) return;
-    
+
     try {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
-        
+
         if (audioCtx.state === 'suspended') {
             audioCtx.resume();
         }
@@ -298,27 +298,31 @@ const unlockAudio = () => {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
-    
-    // Play a silent buffer to unlock audio on iOS/Mobile
-    const buffer = audioCtx.createBuffer(1, 1, 22050);
-    const source = audioCtx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioCtx.destination);
-    source.start(0);
 
+    // Explicitly resume for iOS
     if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-    
-    // Also trigger a small sound to confirm unlock
-    playSound('click');
+        audioCtx.resume().then(() => {
+            // Play a silent buffer to unlock audio on iOS/Mobile
+            const buffer = audioCtx.createBuffer(1, 1, 22050);
+            const source = audioCtx.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioCtx.destination);
+            source.start(0);
 
+            // Confirm unlock with a sound
+            playSound('click');
+        });
+    }
+
+    // Clean up listeners
     window.removeEventListener('click', unlockAudio);
     window.removeEventListener('touchstart', unlockAudio);
+    window.removeEventListener('touchend', unlockAudio);
 };
 
 window.addEventListener('click', unlockAudio);
 window.addEventListener('touchstart', unlockAudio);
+window.addEventListener('touchend', unlockAudio);
 
 tabButtons.forEach(btn => btn.addEventListener('click', () => {
     playSound('tab');
